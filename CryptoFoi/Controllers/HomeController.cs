@@ -1,5 +1,8 @@
-﻿using System;
+﻿using CryptoFoi.Core.CryptoCoding;
+using CryptoFoi.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,18 +16,19 @@ namespace CryptoFoi.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Index(CipherViewModel model)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (Request.Files.Count > 0 
+                && (Request.Files[0].ContentLength > 0 
+                || Request.Files[1].ContentLength > 0))
+            {
+                var crypto = new RsaCrypto(model, Request.Files);
+            } else
+            {
+                model.FileError = "You must specify one of the files!";
+            }
+            return View(model);
         }
     }
 }
