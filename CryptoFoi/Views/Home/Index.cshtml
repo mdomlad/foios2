@@ -4,7 +4,7 @@
     ViewBag.Title = "FoiOs2";
 }
 
-<h2>FOI OS2 Crypto</h2>
+<h2>FOI OS2 Keys</h2>
 
 
 @using (Html.BeginForm("Index",
@@ -17,9 +17,6 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Keys", htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.SecretKeyText, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -44,47 +41,14 @@
                 @Html.ValidationMessageFor(model => model.PrivateKeyText, "", new { @class = "text-danger" })
             </div>
         </div>
-        <hr />
-
-        <div class="form-group">
-            @Html.Label("Files", htmlAttributes: new { @class = "control-label col-md-offset-2 col-md-2" })
-        </div>
-        <div class="form-group">
-            @Html.Label(Model.FileError, new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.TextFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="file" accept=".txt" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EncryptedFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-              <input type="file" name="file" accept=".txt" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MessageHash, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.MessageHash)
-                @Html.HiddenFor(model => model.MessageHash)
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Start" class="btn btn-default" />
+                <input type="submit" value="Save keys" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

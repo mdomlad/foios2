@@ -13,18 +13,35 @@ namespace CryptoFoi.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(new CipherViewModel());
         }
 
         [HttpPost]
         public ActionResult Index(CipherViewModel model)
         {
-            if (Request.Files.Count > 0 
-                && (Request.Files[0].ContentLength > 0 
-                || Request.Files[1].ContentLength > 0))
+            if (ModelState.IsValid)
+            {
+                model.SaveKeys();
+                return RedirectToAction("Crypto");
+            }
+
+            return View(model);
+        }
+
+        public ActionResult Crypto()
+        {
+            return View(new CipherViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult Crypto(CipherViewModel model)
+        {
+            if (Request.Files.Count > 0)
             {
                 var crypto = new RsaCrypto(model, Request.Files);
-            } else
+                model.MessageHash = crypto.GetHash();
+            }
+            else
             {
                 model.FileError = "You must specify one of the files!";
             }

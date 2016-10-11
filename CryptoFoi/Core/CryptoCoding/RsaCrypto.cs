@@ -6,15 +6,16 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using CryptoFoi.Models;
+using System.Text;
+using CryptoFoi.Core.Helpers;
 
 namespace CryptoFoi.Core.CryptoCoding
 {
     public class RsaCrypto : ICrypto
     {
-        public readonly static string _appDataPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Public");
-        private readonly static string _secretKeyFileName = Path.Combine(_appDataPath, "tajni_kljuc.txt");
-        private readonly static string _publicKeyFileName = Path.Combine(_appDataPath, "javni_kljuc.txt");
-        private readonly static string _privateKeyFileName = Path.Combine(_appDataPath, "privatni_kljuc.txt");
+        private readonly static string _secretKeyFileName = Path.Combine(FileHelper.PublicDataPath, "tajni_kljuc.txt");
+        private readonly static string _publicKeyFileName = Path.Combine(FileHelper.PublicDataPath, "javni_kljuc.txt");
+        private readonly static string _privateKeyFileName = Path.Combine(FileHelper.PublicDataPath, "privatni_kljuc.txt");
 
         private CipherViewModel model;
         private HttpFileCollectionBase files;
@@ -90,6 +91,20 @@ namespace CryptoFoi.Core.CryptoCoding
 
             // Return the decrypted text
             return buf;
+        }
+
+        public string GetHash(string txt = "")
+        {
+            if(files[0].ContentLength > 0)
+            {
+                StreamReader stream = new StreamReader(files[0].InputStream);
+                txt = stream.ReadToEnd();
+                byte[] encodedText = new UTF8Encoding().GetBytes(txt);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedText);
+
+                return BitConverter.ToString(hash).Replace("-", string.Empty).ToLower();
+            }
+            return null;        
         }
 
         public void Sign()

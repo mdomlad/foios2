@@ -11,5 +11,6 @@ namespace CryptoFoi.Core.CryptoCoding
         string Decrypt(string fileName);
         void Sign();
         bool CheckSignature();
+        string GetHash(string txt);
     }
 }
