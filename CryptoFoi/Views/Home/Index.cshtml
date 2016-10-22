@@ -1,10 +1,10 @@
 ﻿@model CryptoFoi.Models.CipherViewModel
 
 @{
-    ViewBag.Title = "FoiOs2";
+    ViewBag.Title = "Crypto";
 }
 
-<h2>FOI OS2 Keys</h2>
+<h2>Crypto</h2>
 
 
 @using (Html.BeginForm("Index",
@@ -13,38 +13,31 @@
                         new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div id="exTab1" class="container">
+        <ul class="nav nav-pills">
+            <li class="@((ViewBag.Tab != null && (ViewBag.Tab == "Encryption" || ViewBag.Tab == "Sign")) ? "active" : string.Empty)">
+                <a href="#encrypt" data-toggle="tab">Encryption</a>
+            </li>
+            <li class="@((ViewBag.Tab != null && (ViewBag.Tab == "Decryption" || ViewBag.Tab == "Verify")) ? "active" : string.Empty)">
+                <a href="#decrypt" data-toggle="tab">Decryption</a>
+            </li>
+            <li class="@((ViewBag.Tab != null && ViewBag.Tab == "Download" || ViewBag.Tab == "Hash") ? "active" : string.Empty)">
+                <a href="#files" data-toggle="tab">Files</a>
+            </li>
+        </ul>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SecretKeyText, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SecretKeyText, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SecretKeyText, "", new { @class = "text-danger" })
+        <div class="tab-content clearfix">
+            <div class="tab-pane @((ViewBag.Tab != null && (ViewBag.Tab == "Encryption" || ViewBag.Tab == "Sign")) ? "active" : string.Empty)" id="encrypt">
+                @Html.Partial("Crypto", Model, new ViewDataDictionary { { "Type", new string[] { "Encryption", "Sign" } } })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PublicKeyText, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PublicKeyText, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PublicKeyText, "", new { @class = "text-danger" })
+            <div class="tab-pane  @((ViewBag.Tab != null && (ViewBag.Tab == "Decryption" || ViewBag.Tab == "Verify")) ? "active" : string.Empty)" id="decrypt">
+                @Html.Partial("Crypto", Model, new ViewDataDictionary { { "Type", new string[] { "Decryption", "Verify" } } })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PrivateKeyText, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PrivateKeyText, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PrivateKeyText, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save keys" class="btn btn-default" />
+            <div class="tab-pane @((ViewBag.Tab != null && ViewBag.Tab == "Download" || ViewBag.Tab == "Hash") ? "active" : string.Empty)" id="files">
+                @Html.Partial("Files", Model)
             </div>
         </div>
     </div>

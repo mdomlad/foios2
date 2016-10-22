@@ -1,77 +1,68 @@
-﻿using CryptoFoi.Core.Helpers;
-using System;
+﻿using CryptoFoi.Core.Logic;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System;
 
 namespace CryptoFoi.Models
 {    
-    public class CipherViewModel
+    public class CipherViewModel: CipherModel
     {
+        public ICrypto Crypto { set { _crypto = value; } }
+        private ICrypto _crypto;
+        private List<string> _methods = new List<string> { "Symetric", "Asymetric" };
+        public SelectList CryptMethods { get; set; }
+        public SelectList Files { get { return new SelectList(CryptoLogic.Files, "Value", "Text"); } }
+
         public CipherViewModel()
         {
             CryptMethods = new SelectList(_methods);
+            Init();
         }
 
-        private List<string> _methods = new List<string>{ "Simetric", "Asymetric" };
-
-        private string[] _keyNames = { "Secret", "Public", "Private" };
-
-        public SelectList CryptMethods { get; set; }
-
-        [Display(Name = "Choose algorithm type")]
-        [Required]
-        public string Method { get; set; }
-
-        [Display(Name = "Secret")]
-        [Required]
-        public string SecretKeyText { get; set; }
-
-        [Display(Name = "Public")]
-        [Required]
-        public string PublicKeyText { get; set; }
-
-        [Display(Name = "Private")]
-        [Required]
-        public string PrivateKeyText { get; set; }
-
-        [FileExtensions(Extensions = "txt",
-              ErrorMessage = "Specify a text file.")]
-        public HttpPostedFileBase TextFile { get; set; }
-
-        [Display(Name = "Message hash")]
-        public string MessageHash { get; set; }
-
-        [Display(Name = "Error: ")]
-        public string FileError { get; set; }
-
-        internal void SaveKeys()
+        public CipherViewModel(ICrypto crypto)
+            : this()
         {
-            foreach (var keyName in _keyNames)
-            {
-                var val = GetType()
-                    .GetProperty(GetPropName(keyName))
-                    .GetValue(this, null)
-                    .ToString();
+            Crypto = crypto;
+        }
 
-                if(val != null)
-                {
-                    File.WriteAllText(GetFileName(keyName), val);
-                }
+        private void Init()
+        {
+            if (!CryptoLogic.LoadKeys())
+            {
+                CryptoLogic.GenerateKeys();
+                CryptoLogic.LoadKeys();
             }
         }
 
-        private string GetPropName(string keyName)
+        public void Encrypt(HttpPostedFileBase file)
         {
-            return string.Format("{0}KeyText", keyName);
+            var encryptedTxt = _crypto.Encrypt(file);
+            File.WriteAllText(CryptoLogic.EncryptFileName, encryptedTxt);
         }
 
-        private string GetFileName(string keyName)
+        public void CalculateHash()
         {
-            return Path.Combine(FileHelper.PublicDataPath, string.Format("{0}_Key.txt", keyName));
+            var bytes = File.ReadAllBytes(CryptoLogic.PlainTxtFile);
+            using (var hash = System.Security.Cryptography.SHA512.Create())
+            {
+                var hashedInputBytes = hash.ComputeHash(bytes);
+
+                // Convert to text
+                // StringBuilder Capacity is 128, because 512 bits / 8 bits in byte * 2 symbols for byte 
+                var hashedInputStringBuilder = new System.Text.StringBuilder(128);
+                foreach (var b in hashedInputBytes)
+                    hashedInputStringBuilder.Append(b.ToString("X2"));
+
+                MessageHash = hashedInputStringBuilder.ToString();
+            }
+        }
+
+        public string Decrypt(HttpPostedFileBase file)
+        {
+            return _crypto.Decrypt(file);
         }
     }
 }

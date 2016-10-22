@@ -1,0 +1,32 @@
+﻿@model CryptoFoi.Models.CipherViewModel
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <label class="text-danger control-label">@Model.FileError</label>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Filename, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.Filename, Model.Files, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-2">
+            <input type="submit" name="download" value="Show" class="btn btn-info" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-2">
+            <input type="submit" name="hash" value="Hash" class="btn btn-warning" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12 text-success text-left">
+            <label class="label label-success">@Model.MessageHash</label>
+        </div>
+    </div>
+</div>
