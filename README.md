@@ -2,17 +2,20 @@
 
 ###ZADATAK
 
-Ostvariti program koji omogućuje
----
-*stvaranje i pohranjivanje kriptografskih ključeva u datoteke tajni_kljuc.txt, javni_kljuc.txt i privatni_kljuc.txt;
+######Ostvariti program koji omogućuje
+======================================
 
-*kriptiranje, odnosno dekriptiranje zadane datoteke simetričnim i asimetričnim algoritmom;
+1. stvaranje i pohranjivanje kriptografskih ključeva u datoteke tajni_kljuc.txt, javni_kljuc.txt i privatni_kljuc.txt
 
-*izračunavanje sažetka poruke (ulazne datoteke);
+2. kriptiranje, odnosno dekriptiranje zadane datoteke simetričnim i asimetričnim algoritmom
 
-*digitalno potpisivanje ulazne datoteke te provjeru digitalnog potpisa.
----
-####Uputa: 
+3. izračunavanje sažetka poruke (ulazne datoteke)
+
+4. digitalno potpisivanje ulazne datoteke te provjeru digitalnog potpisa
+
+
+######Upute: 
+======================
 Za simetrično i asimetrično kriptiranje te za izračunavanje sažetka poruke koristiti gotove, 
 slobodno raspoložive izvorne tekstove programa po vlastitom izboru. Svaki korak mora biti spremljen 
 u posebnu datoteku npr. kriptirani tekst treba biti spremljen u posebnu datoteku, potpis treba biti 
