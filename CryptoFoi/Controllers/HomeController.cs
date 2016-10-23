@@ -38,9 +38,9 @@ namespace CryptoFoi.Controllers
                 }
                 else {
                     var direction = string.IsNullOrEmpty(cryptDirection) ? signDirection : cryptDirection;
+                    ViewBag.Tab = direction;
                     var method = (direction == "Encryption" || direction == "Sign") ? Method_Encryption_Sign : Method_Decryption_Verify;
                     model.Crypto = GetCryptoMethod(method);
-                    ViewBag.Tab = direction;
                     DoWork(model, direction, Request.Files);
                 }
             }
