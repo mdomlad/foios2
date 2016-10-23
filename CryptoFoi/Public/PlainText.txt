@@ -1,0 +1,7 @@
+I am trying to get labels to not wrap in Bootstrap3 but can't seem to get it to work.
+
+I tried placing 'word-wrap: break-word' even on the label but that doesn't seem to break the label's sentence either.
+
+I did see in the documentation to 'Wrap labels and controls in .form-group for optimum spacing.' but I cannot use 'form-group' i think if I want to use bootstrap divs to control grid/form layout of the labels/answers separately (the labels/inputs are more mobile friendy and expand to 100% of the screener when on xs screens, but on sm+ screen the labels show up left of the input to save screen space).
+
+Here is an example... Expand the jsfiddle's right side frame very big and then you see the form labels get placed on the left with right text-alignment and the issue occuring then.
