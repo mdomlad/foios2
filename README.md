@@ -1,8 +1,8 @@
 # FOI OS2 Kriptografija
 
-###ZADATAK
+### ZADATAK
 
-######Ostvariti program koji omogućuje
+###### Ostvariti program koji omogućuje
 ======================================
 
 1. stvaranje i pohranjivanje kriptografskih ključeva u datoteke tajni_kljuc.txt, javni_kljuc.txt i privatni_kljuc.txt
@@ -14,7 +14,7 @@
 4. digitalno potpisivanje ulazne datoteke te provjeru digitalnog potpisa
 
 
-######Upute: 
+###### Upute: 
 ======================
 Za simetrično i asimetrično kriptiranje te za izračunavanje sažetka poruke koristiti gotove, 
 slobodno raspoložive izvorne tekstove programa po vlastitom izboru. Svaki korak mora biti spremljen 
